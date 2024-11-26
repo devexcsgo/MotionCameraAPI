@@ -8,26 +8,67 @@ namespace MotionCameraAPI.Controllers
     [ApiController]
     public class LicenseplatesController : ControllerBase
     {
-        // GET: api/<LicenseplatesController>
+
+        private LicensePlateRepository _licensePlateRepository;
+
+        public LicenseplatesController(LicensePlateRepository licensePlateRepository)
+        {
+            _licensePlateRepository = licensePlateRepository;
+        }
+
+
+        // GET: api/<SchoolsController>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<IEnumerable<LicensePlate>> Get()
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<LicensePlate> licensePlate = _licensePlateRepository.GetAll();
+            if (licensePlate == null)
+            {
+                return NotFound();
+            }
+            return Ok(licensePlate);
         }
 
-        // GET api/<LicenseplatesController>/5
+        // GET api/<SchoolsController>/5
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<LicensePlate> Get(int id)
         {
-            return "value";
+            LicensePlate licensePlate = _licensePlateRepository.Get(id);
+            if (licensePlate == null)
+            {
+                return NotFound();
+            }
+            return Ok(licensePlate);
         }
 
-        // POST api/<LicenseplatesController>
+        // POST api/<SchoolsController>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<LicensePlate> Post([FromBody] LicensePlate newLicensePlate)
         {
+            try
+            {
+                LicensePlate createdLicensePlate = _licensePlateRepository.Add(newLicensePlate);
+                return Created("/" + createdLicensePlate.Id, createdLicensePlate);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
         // PUT api/<LicenseplatesController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
@@ -35,9 +76,17 @@ namespace MotionCameraAPI.Controllers
         }
 
         // DELETE api/<LicenseplatesController>/5
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<LicensePlate> Delete(int id) 
         {
+            var licensePlate = _licensePlateRepository.Remove(id);
+            if (_licensePlateRepository.Get(id) == null)
+            {
+                return NotFound();
+            }      
+            return Ok(licensePlate);
         }
     }
 }
