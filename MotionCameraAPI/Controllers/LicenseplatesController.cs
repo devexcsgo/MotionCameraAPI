@@ -81,11 +81,11 @@ namespace MotionCameraAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult<LicensePlate> Delete(int id) 
         {
+            var licensePlate = _licensePlateRepository.Remove(id);
             if (_licensePlateRepository.Get(id) == null)
             {
                 return NotFound();
-            }
-            var licensePlate = _licensePlateRepository.Remove(id);
+            }      
             return Ok(licensePlate);
         }
     }
