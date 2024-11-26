@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public string? Plate { get; set; }
         public DateTime? Time { get; set; }
+        public string? ImagePath { get; set; } // Property to store the image file path
 
         public override string ToString()
         {
