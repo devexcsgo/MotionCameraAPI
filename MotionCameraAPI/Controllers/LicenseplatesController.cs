@@ -76,9 +76,17 @@ namespace MotionCameraAPI.Controllers
         }
 
         // DELETE api/<LicenseplatesController>/5
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<LicensePlate> Delete(int id) 
         {
+            if (_licensePlateRepository.Get(id) == null)
+            {
+                return NotFound();
+            }
+            var licensePlate = _licensePlateRepository.Remove(id);
+            return Ok(licensePlate);
         }
     }
 }
