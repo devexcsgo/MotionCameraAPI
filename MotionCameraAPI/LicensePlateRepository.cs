@@ -13,19 +13,31 @@
         }
 
         // Add
+        public LicensePlate Add(LicensePlate licensePlate)
+        {
+            // Mangler validering
+            licensePlate.Id = _nextId++;
+            _licensePlates.Add(licensePlate);
+            return licensePlate;
+        }
 
         // Get
-        public LicensePlate GetById(int id)
+        public LicensePlate Get(int id)
         {
             return _licensePlates.FirstOrDefault(lp => lp.Id == id);
         }
 
         // Get all
+        public IEnumerable<LicensePlate> GetAll()
+        {
+            IEnumerable<LicensePlate> allPlatesList = new List<LicensePlate>(_licensePlates);
+            return allPlatesList;
+        }
 
         // Delete
         public LicensePlate? Remove(int id)
         {
-            LicensePlate? licensePlate = GetById(id);
+            LicensePlate? licensePlate = Get(id);
             if (licensePlate == null)
             {
                 return null;
