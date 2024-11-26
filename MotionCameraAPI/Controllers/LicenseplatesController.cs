@@ -8,11 +8,27 @@ namespace MotionCameraAPI.Controllers
     [ApiController]
     public class LicenseplatesController : ControllerBase
     {
-        // GET: api/<LicenseplatesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+        private LicensePlateRepository _licensePlateRepository;
+
+        public LicenseplatesController(LicensePlateRepository licensePlateRepository)
         {
-            return new string[] { "value1", "value2" };
+            _licensePlateRepository = licensePlateRepository;
+        }
+
+
+        // GET: api/<SchoolsController>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet]
+        public ActionResult<IEnumerable<LicensePlate>> Get()
+        {
+            IEnumerable<LicensePlate> licensePlate = _licensePlateRepository.GetAll();
+            if (licensePlate == null)
+            {
+                return NotFound();
+            }
+            return Ok(licensePlate);
         }
 
         // GET api/<LicenseplatesController>/5
