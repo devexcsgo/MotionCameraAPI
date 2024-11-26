@@ -1,6 +1,6 @@
 ﻿namespace MotionCameraAPI
 {
-    public class LincensePlate
+    public class LicensePlate
     {
         public int Id { get; set; }
         public string? Plate { get; set; }
