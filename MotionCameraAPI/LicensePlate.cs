@@ -10,13 +10,19 @@
         {
             return $"Id: {Id}, Plate: {Plate}, Time: {Time}";
         }
-        public void ValidatePlate()
+
+		// Checks if the string of plates are to long or short.
+		// The sting needs to exactly 7 characters long.
+		public void ValidatePlate()
         {
             if (Plate == null)
             {
-                throw new Exception("Plate is null");
+                throw new ArgumentOutOfRangeException("License plate can't be null");
+            }
+            if (Plate.Length <= 6 || Plate.Length >= 8)
+            {
+                throw new ArgumentOutOfRangeException("Plate string to short or long. Need to be 7 long");
             }
         }
-
     }
 }
