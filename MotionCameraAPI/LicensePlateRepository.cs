@@ -7,9 +7,9 @@
 
         public LicensePlateRepository()
         {
-            // Mock data
-            _licensePlates.Add(new LicensePlate { Id = _nextId++, Plate = "DW74810", Time = DateTime.Now });
-            _licensePlates.Add(new LicensePlate { Id = _nextId++, Plate = "BT24209", Time = DateTime.Now });
+            //// Mock data
+            //_licensePlates.Add(new LicensePlate { Id = _nextId++, Plate = "DW74810", Time = DateTime.Now });
+            //_licensePlates.Add(new LicensePlate { Id = _nextId++, Plate = "BT24209", Time = DateTime.Now });
         }
 
         // Add
