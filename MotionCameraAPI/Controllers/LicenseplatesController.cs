@@ -31,19 +31,44 @@ namespace MotionCameraAPI.Controllers
             return Ok(licensePlate);
         }
 
-        // GET api/<LicenseplatesController>/5
+        // GET api/<SchoolsController>/5
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<LicensePlate> Get(int id)
         {
-            return "value";
+            LicensePlate licensePlate = _licensePlateRepository.Get(id);
+            if (licensePlate == null)
+            {
+                return NotFound();
+            }
+            return Ok(licensePlate);
         }
 
-        // POST api/<LicenseplatesController>
+        // POST api/<SchoolsController>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<LicensePlate> Post([FromBody] LicensePlate newLicensePlate)
         {
+            try
+            {
+                LicensePlate createdLicensePlate = _licensePlateRepository.Add(newLicensePlate);
+                return Created("/" + createdLicensePlate.Id, createdLicensePlate);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
         // PUT api/<LicenseplatesController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
