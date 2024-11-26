@@ -14,6 +14,7 @@ namespace MotionCameraAPI.Controllers
         public LicenseplatesController(LicensePlateRepository licensePlateRepository)
         {
             _licensePlateRepository = licensePlateRepository;
+            _licensePlateRepository.MockData();
         }
 
 
