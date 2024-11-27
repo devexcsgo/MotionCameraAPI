@@ -1,6 +1,6 @@
 ﻿namespace MotionCameraAPI
 {
-    public class LicensePlateRepository
+    public class LicensePlateRepository : ILicensePlateRepository
     {
         private int _nextId = 1;
         private readonly List<LicensePlate> _licensePlates = new List<LicensePlate>();
