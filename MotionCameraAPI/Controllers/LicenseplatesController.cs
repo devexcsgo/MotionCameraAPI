@@ -48,7 +48,7 @@ namespace MotionCameraAPI.Controllers
 
         // POST (Add) api/<LicensePlatesController>
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public ActionResult<LicensePlate> Post([FromBody] LicensePlate newLicensePlate)
         {
