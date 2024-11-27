@@ -18,7 +18,7 @@ namespace MotionCameraAPI.Controllers
         }
 
 
-        // GET: api/<SchoolsController>
+        // GET ALL: api/<LicensePlatesController>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
@@ -32,7 +32,7 @@ namespace MotionCameraAPI.Controllers
             return Ok(licensePlate);
         }
 
-        // GET api/<SchoolsController>/5
+        // GET api/<LicensePlatesController>/5
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
@@ -46,7 +46,7 @@ namespace MotionCameraAPI.Controllers
             return Ok(licensePlate);
         }
 
-        // POST api/<SchoolsController>
+        // POST (Add) api/<LicensePlatesController>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpPost]
@@ -70,23 +70,18 @@ namespace MotionCameraAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        // PUT api/<LicenseplatesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
-        // DELETE api/<LicenseplatesController>/5
+        // DELETE (Remove) api/<LicenseplatesController>/5
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         public ActionResult<LicensePlate> Delete(int id) 
         {
-            var licensePlate = _licensePlateRepository.Remove(id);
             if (_licensePlateRepository.Get(id) == null)
             {
                 return NotFound();
-            }      
+            }
+            var licensePlate = _licensePlateRepository.Remove(id);
             return Ok(licensePlate);
         }
     }
