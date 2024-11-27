@@ -1,6 +1,6 @@
 ﻿namespace MotionCameraAPI
 {
-        public interface IMoviesRepository
+        public interface ILicensePlateRepository
         {
             LicensePlate Add(LicensePlate licensePlate);
             IEnumerable<LicensePlate> GetAll();

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoviesRepositoryLib.Tests
+namespace MotionCameraAPI.Tests
 {
     [TestClass()]
     public class LicensePlateRepositoryDBTests

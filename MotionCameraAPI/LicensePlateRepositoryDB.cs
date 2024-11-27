@@ -1,8 +1,8 @@
 ﻿using MotionCameraAPI;
 using Microsoft.EntityFrameworkCore;
-namespace MoviesRepositoryLib
+namespace MotionCameraAPI
 {
-    public class LicensePlateRepositoryDB : IMoviesRepository
+    public class LicensePlateRepositoryDB : ILicensePlateRepository
     {
         private readonly LicensePlateDbContext _context;
 
