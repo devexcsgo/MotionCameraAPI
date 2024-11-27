@@ -23,7 +23,7 @@
         // Add
         public LicensePlate Add(LicensePlate licensePlate)
         {
-            // Mangler validering
+            licensePlate.ValidatePlate();
             licensePlate.Id = _nextId++;
             _licensePlates.Add(licensePlate);
             return licensePlate;
