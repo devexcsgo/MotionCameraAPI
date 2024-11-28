@@ -11,75 +11,99 @@ using System.Threading.Tasks;
 
 namespace MotionCameraAPI.Tests
 {
-    [TestClass()]
-    public class LicensePlateRepositoryDBTests
-    {
-        private const bool useDatabase = true;
-        private static LicensePlateDbContext _context;
-        private static ILicensePlateRepository _licensePlateRepository;
-        private readonly LicensePlate _licensePlate1 = new() { Plate = "AC12345" };
+	[TestClass()]
+	public class LicensePlateRepositoryDBTests
+	{
+		private static LicensePlateDbContext _context;
+		private static ILicensePlateRepository _licensePlateRepository;
+		private readonly LicensePlate _licensePlate1 = new() { Plate = "AB12345" };
 
-        [ClassInitialize]
-        public static void InitOnce(TestContext context)
-        {
-            if (useDatabase)
-            {
-                var optionsBuilder = new DbContextOptionsBuilder<LicensePlateDbContext>();
-				optionsBuilder.UseSqlServer(Secret.ConnectionString);
-				// connection string structure
+		// This Initialization is so the database for lincens-plates is used for every test
+		[TestInitialize()]
+		public void InitOnce()
+		{
+			var optionsBuilder = new DbContextOptionsBuilder<LicensePlateDbContext>();
+			optionsBuilder.UseSqlServer(Secret.ConnectionString);
+			// connection string structure
 
-				LicensePlateDbContext _context = new LicensePlateDbContext(optionsBuilder.Options);
+			LicensePlateDbContext _context = new LicensePlateDbContext(optionsBuilder.Options);
 
-				// clean database table: remove all rows
-				_context.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.LicensePlate");
-                _licensePlateRepository = new LicensePlateRepositoryDB(_context);
-            }
-            else
-            {
-                _licensePlateRepository = new LicensePlateRepository();
-            }
-        }
+			// clean database table: remove all rows
+			_context.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.LicensePlate");
+			_licensePlateRepository = new LicensePlateRepositoryDB(_context);
+		}
 
-        //[TestMethod()]
-        //public void LicensePlateRepositoryDBTest()
-        //{
-        //    Assert.Fail();
-        //}
+		//[TestMethod()]
+		//public void LicensePlateRepositoryDBTest()
+		//{
+		//    Assert.Fail();
+		//}
 
-        [TestMethod()]
-        public void AddTest()
-        {
-            _licensePlateRepository.Add(new LicensePlate { Plate = "CD67890", ImagePath = "Location", Time = DateTime.Parse("2024-11-28T08:56:56.962Z") });
+		[TestMethod()]
+		public void AddTest()
+		{
+			// Assert
+			Assert.ThrowsException<ArgumentNullException>(
+				() => _licensePlateRepository.Add(new LicensePlate { Plate = null }));
+			Assert.ThrowsException<ArgumentOutOfRangeException>(
+				() => _licensePlateRepository.Add(new LicensePlate { Plate = "" }));
+		}
 
-			LicensePlate tan = _licensePlateRepository.Add(new LicensePlate { Plate = "EF54321", ImagePath = "Area", Time = DateTime.Parse("2024-11-28T08:56:57.962Z") });
+		[TestMethod()]
+		public void GetByIdTest()
+		{
+			_licensePlateRepository.Add(new LicensePlate { Plate = "CD67890", ImagePath = "Location", Time = DateTime.Parse("2024-11-28T08:56:56.962Z") });
 
-            // Assert
-            Assert.IsTrue(tan.Id >= 0);
-            IEnumerable<LicensePlate> All = _licensePlateRepository.GetAll();
-            Assert.AreEqual(2, All.Count());
+			LicensePlate tan = _licensePlateRepository.Add
+				(new LicensePlate { Plate = "EF54321", ImagePath = "Area", Time = DateTime.Parse("2024-11-28T08:56:57.962Z") });
+			LicensePlate silas = _licensePlateRepository.Add
+				(new LicensePlate { Plate = "GH09876", ImagePath = "Place", Time = DateTime.Parse("2024-11-28T08:56:58.962Z") });
 
-            Assert.ThrowsException<ArgumentNullException>(
-                () => _licensePlateRepository.Add(new LicensePlate { Plate = null, ImagePath = "Location", Time = DateTime.Parse("2024-11-28T08:56:56.962Z") }));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(
-                () => _licensePlateRepository.Add(new LicensePlate { Plate = "" }));
-        }
+			// Assert
+			Assert.AreEqual(tan, _licensePlateRepository.Get(2));
+			Assert.AreEqual(silas, _licensePlateRepository.Get(3));
+			Assert.IsNull(_licensePlateRepository.Get(4));
+		}
 
-        //[TestMethod()]
-        //public void GetTest()
-        //{
-        //    Assert.Fail();
-        //}
+		[TestMethod()]
+		public void GetAllTest()
+		{
+			_licensePlateRepository.Add(new LicensePlate { Plate = "CD67890", ImagePath = "Location", Time = DateTime.Parse("2024-11-28T08:56:56.962Z") });
 
-        //[TestMethod()]
-        //public void GetAllTest()
-        //{
-        //    Assert.Fail();
-        //}
+			LicensePlate tan = _licensePlateRepository.Add
+				(new LicensePlate { Plate = "EF54321", ImagePath = "Area", Time = DateTime.Parse("2024-11-28T08:56:57.962Z") });
+			LicensePlate silas = _licensePlateRepository.Add
+				(new LicensePlate { Plate = "GH09876", ImagePath = "Place", Time = DateTime.Parse("2024-11-28T08:56:58.962Z") });
+			LicensePlate rasmus = _licensePlateRepository.Add
+				(new LicensePlate { Plate = "IJ13579", ImagePath = "Place", Time = DateTime.Parse("2024-11-28T08:56:59.962Z") });
+			LicensePlate Zimon = _licensePlateRepository.Add
+				(new LicensePlate { Plate = "kl24680", ImagePath = "Place", Time = DateTime.Parse("2024-11-28T08:57:01.962Z") });
 
-        //[TestMethod()]
-        //public void RemoveTest()
-        //{
-        //    Assert.Fail();
-        //}
-    }
+			// Assert
+			IEnumerable<LicensePlate> All = _licensePlateRepository.GetAll();
+			Assert.AreEqual(5, All.Count());
+		}
+
+		[TestMethod()]
+		public void RemoveTest()
+		{
+			_licensePlateRepository.Add(new LicensePlate { Plate = "CD67890", ImagePath = "Location", Time = DateTime.Parse("2024-11-28T08:56:56.962Z") });
+
+			LicensePlate tan = _licensePlateRepository.Add
+						 (new LicensePlate { Plate = "EF54321", ImagePath = "Area", Time = DateTime.Parse("2024-11-28T08:56:57.962Z") });
+			LicensePlate silas = _licensePlateRepository.Add
+						 (new LicensePlate { Plate = "GH09876", ImagePath = "Place", Time = DateTime.Parse("2024-11-28T08:56:58.962Z") });
+			LicensePlate rasmus = _licensePlateRepository.Add
+				(new LicensePlate { Plate = "IJ13579", ImagePath = "Place", Time = DateTime.Parse("2024-11-28T08:56:59.962Z") });
+
+			// Removes id 1.
+			_licensePlateRepository.Remove(3);
+
+			// Assert
+			Assert.IsNull(_licensePlateRepository.Get(3));
+			Assert.AreEqual(rasmus.Id, 4);
+			IEnumerable<LicensePlate> All = _licensePlateRepository.GetAll();
+			Assert.AreEqual(3, All.Count());
+		}
+	}
 }
