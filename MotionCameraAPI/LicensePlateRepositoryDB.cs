@@ -15,20 +15,20 @@ namespace MotionCameraAPI
         {
             licensePlate.ValidatePlate();
             licensePlate.Id = 0;
-            _context.LicensePlates.Add(licensePlate);
+            _context.LicensePlate.Add(licensePlate);
             _context.SaveChanges();
             return licensePlate;
         }
 
         public LicensePlate? Get(int id)
         {
-            return _context.LicensePlates.FirstOrDefault(lp => lp.Id == id);
+            return _context.LicensePlate.FirstOrDefault(lp => lp.Id == id);
         }
 
         public IEnumerable<LicensePlate> GetAll()
         {
             //Makes a Copy of the list
-            IQueryable<LicensePlate> query = _context.LicensePlates.ToList().AsQueryable();
+            IQueryable<LicensePlate> query = _context.LicensePlate.ToList().AsQueryable();
             return query;
         }
 
@@ -39,7 +39,7 @@ namespace MotionCameraAPI
             {
                 return null;
             }
-            _context.LicensePlates.Remove(licensePlate);
+            _context.LicensePlate.Remove(licensePlate);
             _context.SaveChanges();
             return licensePlate;
         }
