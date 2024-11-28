@@ -16,7 +16,6 @@ namespace MotionCameraAPI.Tests
 	{
 		private static LicensePlateDbContext _context;
 		private static ILicensePlateRepository _licensePlateRepository;
-		private readonly LicensePlate _licensePlate1 = new() { Plate = "AB12345" };
 
 		// This Initialization is so the database for lincens-plates is used for every test
 		[TestInitialize()]
@@ -32,12 +31,6 @@ namespace MotionCameraAPI.Tests
 			_context.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.LicensePlate");
 			_licensePlateRepository = new LicensePlateRepositoryDB(_context);
 		}
-
-		//[TestMethod()]
-		//public void LicensePlateRepositoryDBTest()
-		//{
-		//    Assert.Fail();
-		//}
 
 		[TestMethod()]
 		public void AddTest()
@@ -87,8 +80,6 @@ namespace MotionCameraAPI.Tests
 		[TestMethod()]
 		public void RemoveTest()
 		{
-			_licensePlateRepository.Add(new LicensePlate { Plate = "CD67890", ImagePath = "Location", Time = DateTime.Parse("2024-11-28T08:56:56.962Z") });
-
 			LicensePlate tan = _licensePlateRepository.Add
 						 (new LicensePlate { Plate = "EF54321", ImagePath = "Area", Time = DateTime.Parse("2024-11-28T08:56:57.962Z") });
 			LicensePlate silas = _licensePlateRepository.Add
@@ -97,13 +88,14 @@ namespace MotionCameraAPI.Tests
 				(new LicensePlate { Plate = "IJ13579", ImagePath = "Place", Time = DateTime.Parse("2024-11-28T08:56:59.962Z") });
 
 			// Removes id 1.
-			_licensePlateRepository.Remove(3);
+			_licensePlateRepository.Remove(2);
 
 			// Assert
-			Assert.IsNull(_licensePlateRepository.Get(3));
-			Assert.AreEqual(rasmus.Id, 4);
+			Assert.IsNull(_licensePlateRepository.Get(2));
+			Assert.IsNull(_licensePlateRepository.Remove(4));
+			Assert.AreEqual(rasmus.Id, 3);
 			IEnumerable<LicensePlate> All = _licensePlateRepository.GetAll();
-			Assert.AreEqual(3, All.Count());
+			Assert.AreEqual(2, All.Count());
 		}
 	}
 }
