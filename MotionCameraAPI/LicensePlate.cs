@@ -18,7 +18,7 @@
         {
             if (Plate == null)
             {
-                throw new ArgumentOutOfRangeException("License plate can't be null");
+                throw new ArgumentNullException("License plate can't be null");
             }
             if (Plate.Length <= 6 || Plate.Length >= 8)
             {

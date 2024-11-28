@@ -49,8 +49,9 @@ namespace MotionCameraAPI.Tests
         [TestMethod()]
         public void AddTest()
         {
-            _licensePlateRepository.Add(new LicensePlate { Plate = "CD67890" });
-            LicensePlate tan = _licensePlateRepository.Add(new LicensePlate { Plate = "EF54321" });
+            _licensePlateRepository.Add(new LicensePlate { Plate = "CD67890", ImagePath = "Location", Time = DateTime.Parse("2024-11-28T08:56:56.962Z") });
+
+			LicensePlate tan = _licensePlateRepository.Add(new LicensePlate { Plate = "EF54321", ImagePath = "Area", Time = DateTime.Parse("2024-11-28T08:56:57.962Z") });
 
             // Assert
             Assert.IsTrue(tan.Id >= 0);
@@ -58,7 +59,7 @@ namespace MotionCameraAPI.Tests
             Assert.AreEqual(2, All.Count());
 
             Assert.ThrowsException<ArgumentNullException>(
-                () => _licensePlateRepository.Add(new LicensePlate { Plate = null }));
+                () => _licensePlateRepository.Add(new LicensePlate { Plate = null, ImagePath = "Location", Time = DateTime.Parse("2024-11-28T08:56:56.962Z") }));
             Assert.ThrowsException<ArgumentOutOfRangeException>(
                 () => _licensePlateRepository.Add(new LicensePlate { Plate = "" }));
         }
