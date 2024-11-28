@@ -36,7 +36,7 @@ namespace MotionCameraAPI.Tests
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => licensePlateShort.ValidatePlate());
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => licensePlateLong.ValidatePlate());
             // Expect a' ArgumentNullException'
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => licensePlateNull.ValidatePlate());
+            Assert.ThrowsException<ArgumentNullException>(() => licensePlateNull.ValidatePlate());
         }
     }
 }
