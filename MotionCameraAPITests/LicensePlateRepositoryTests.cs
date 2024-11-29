@@ -11,7 +11,19 @@ namespace MotionCameraAPI.Tests
     [TestClass()]
     public class LicensePlateRepositoryTests
     {
-        [TestMethod()]
+		[TestMethod()]
+		public void MockDataTest()
+		{
+			LicensePlateRepository repository = new LicensePlateRepository();
+			repository.MockData(); // Puts the two licensePlate objs into the repository
+            // Assert
+			Assert.AreEqual(2, repository.GetAll().Count());
+
+            repository.MockData(); // Mockdata can only put licensePlate objs into repository, if it is empty
+			Assert.AreEqual(2, repository.GetAll().Count());
+		}
+
+		[TestMethod()]
         public void AddLicensePlateTest()
         {
             ///<Summary>

@@ -38,5 +38,14 @@ namespace MotionCameraAPI.Tests
             // Expect a' ArgumentNullException'
             Assert.ThrowsException<ArgumentNullException>(() => licensePlateNull.ValidatePlate());
         }
+
+        [TestMethod()]
+        public void ToStringTest()
+        {
+            LicensePlate LicenseString = new LicensePlate()
+            { Id = 1, Plate = "AB12345", ImagePath = "Location", Time = DateTime.Parse("2024-11-28T08:56:57.962Z") };
+
+            Assert.AreEqual("Id: 1, Plate: AB12345, Time: 28-11-2024 09:56:57", LicenseString.ToString());
+        }
     }
 }
