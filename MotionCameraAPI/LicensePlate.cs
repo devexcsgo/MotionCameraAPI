@@ -20,7 +20,7 @@
             {
                 throw new ArgumentNullException("License plate can't be null");
             }
-            if (Plate.Length <= 6 || Plate.Length >= 8)
+            if (Plate.Length < 7 || Plate.Length > 7)
             {
                 throw new ArgumentOutOfRangeException("Plate string to short or long. Need to be 7 long");
             }
