@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,10 +11,12 @@ namespace MotionCameraAPI.Controllers
     {
 
         private LicensePlateRepository _licensePlateRepository;
+        private readonly LicensePlateDbContext _context; // Add this line
 
-        public LicenseplatesController(LicensePlateRepository licensePlateRepository)
+        public LicenseplatesController(LicensePlateRepository licensePlateRepository, LicensePlateDbContext context) // Modify constructor
         {
             _licensePlateRepository = licensePlateRepository;
+            _context = context; // Add this line
             _licensePlateRepository.MockData();
         }
 
@@ -31,6 +34,23 @@ namespace MotionCameraAPI.Controllers
             }
             return Ok(licensePlate);
         }
+
+        [HttpGet("image/{id}")]
+        public IActionResult GetImage(int id)
+        {
+            var image = _context.Images.FirstOrDefault(i => i.Id == id); 
+            if (image == null || image.Data == null)
+            {
+                return NotFound("Image not found.");
+            }
+
+            // Konverter billeddata til Base64
+            var base64Image = Convert.ToBase64String(image.Data);
+            var imageUrl = $"data:image/jpeg;base64,{base64Image}";
+
+            return Ok(new { imageUrl });
+        }
+
 
         // GET api/<LicensePlatesController>/5
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -75,7 +95,7 @@ namespace MotionCameraAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
-        public ActionResult<LicensePlate> Delete(int id) 
+        public ActionResult<LicensePlate> Delete(int id)
         {
             if (_licensePlateRepository.Get(id) == null)
             {
