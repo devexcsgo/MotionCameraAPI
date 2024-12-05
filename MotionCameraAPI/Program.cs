@@ -15,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<LicensePlateDbContext>(options =>
     options.UseSqlServer(Secret.ConnectionString));
+builder.Services.AddDbContext<ImageEntityDbContext>(options =>
+    options.UseSqlServer(Secret.ConnectionString));
 builder.Services.AddScoped<LicensePlateRepositoryDB>();
 
 var app = builder.Build();
@@ -22,7 +24,13 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<LicensePlateDbContext>();
-    db.Database.EnsureCreated(); // Initialiser databasen
+    db.Database.EnsureCreated(); // Initialize the database
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var db1 = scope.ServiceProvider.GetRequiredService<ImageEntityDbContext>();
+    db1.Database.EnsureCreated(); // Initialize the database
 }
 
 app.UseSwagger();
