@@ -9,12 +9,12 @@
 
         public override string ToString()
         {
-            return $"Id: {Id}, Plate: {Plate}, Time: {Time}";
+            return $"Id: {Id}, Plate: {Plate}, Time: {Time:dd-MM-yyyy HH:mm:ss}";
         }
 
-		// Checks if the string of plates are to long or short.
-		// The sting needs to exactly 7 characters long.
-		public void ValidatePlate()
+        // Checks if the string of plates are to long or short.
+        // The sting needs to exactly 7 characters long.
+        public void ValidatePlate()
         {
             if (Plate == null)
             {

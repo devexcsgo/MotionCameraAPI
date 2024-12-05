@@ -9,7 +9,6 @@ namespace MotionCameraAPI
     {
         public LicensePlateDbContext(DbContextOptions<LicensePlateDbContext> options) : base(options) { }
         public DbSet<LicensePlate> LicensePlate { get; set; }
-
     }
 }
 
