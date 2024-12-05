@@ -9,12 +9,11 @@ namespace MotionCameraAPI.Controllers
     public class LicenseplatesController : ControllerBase
     {
 
-        private LicensePlateRepository _licensePlateRepository;
+        private LicensePlateRepositoryDB _licensePlateRepository;
 
-        public LicenseplatesController(LicensePlateRepository licensePlateRepository)
+        public LicenseplatesController(LicensePlateRepositoryDB licensePlateRepository)
         {
             _licensePlateRepository = licensePlateRepository;
-            _licensePlateRepository.MockData();
         }
 
 

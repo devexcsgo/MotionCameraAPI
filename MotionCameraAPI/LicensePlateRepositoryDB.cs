@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 namespace MotionCameraAPI
 {
-    public class LicensePlateRepositoryDB : ILicensePlateRepository
+    public class LicensePlateRepositoryDB
     {
         private readonly LicensePlateDbContext _context;
 
